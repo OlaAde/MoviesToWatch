@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#673AB7</color>
+    <color name="colorPrimaryDark">#4527A0</color>
+    <color name="colorAccent">#424242</color>
+
+    <color name="background_main">#C5CAE9</color>
+
+    <color name="backgound_card">#7E57C2</color>
+
+    <color name="dark_background_detail_view">#80000000</color>
+    <color name="color_page_tv">#000000</color>
+    <color name="color_background_page_tv">#9E9E9E</color>
+    <color name="color_background_tint_arrows">#BDBDBD</color>
+</resources>
+
+

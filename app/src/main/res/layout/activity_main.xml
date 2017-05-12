@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/list_item_movie_spacing"
+    tools:context="com.example.adeogo.moviestowatch.MainActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:background="@color/background_main"
+        android:layout_height="match_parent"
+        android:id="@+id/rv_main">
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/tv_error_message_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_error_tv"
+        android:textSize="@dimen/text_size_error"
+        android:text="@string/error_message"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"/>
+
+    <ProgressBar
+        android:id="@+id/pb_loading_indicator"
+        android:layout_height="@dimen/progress_bar_layout_height"
+        android:layout_width="@dimen/progress_bar_layout_width"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"/>
+
+
+
+</RelativeLayout>
+

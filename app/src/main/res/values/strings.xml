@@ -1,0 +1,22 @@
+
+<resources>
+    <string name="app_name">Popular Movies Stage 2</string>
+    <string name="action_sort_by_popularity">Sort by Popularity</string>
+    <string name="action_sort_by_rating">Sort By Highest Rated</string>
+    <string name="action_sort_by_favorites">Sort By Favorites</string>
+
+    <string name="error_message">
+        An error has occurred somewhere in the chain !!!
+    </string>
+    <string name="release_date">Release Date</string>
+    <string name="vote_average">Vote Average</string>
+    <string name="list_order">Order</string>
+    <string name="detail_activity_title">Movie Description</string>
+    <string name="trailers">Trailers</string>
+    <string name="reviews">Reviews</string>
+    <string name="share_to">Share Through</string>
+    <string name="adding_to_favorites">Added to the favorites list</string>
+    <string name="removing_from_favorites">Removed from the favorites list</string>
+
+</resources>
+
