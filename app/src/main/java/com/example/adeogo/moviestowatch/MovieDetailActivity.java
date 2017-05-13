@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,7 +44,6 @@ public class MovieDetailActivity extends AppCompatActivity implements TrailerAda
     private String movieTitle;
     private int condition_favorite;
     private ContentValues movieValues = new ContentValues();
-    private boolean checkMarked =  false;
     private String selection = FavoritesContract.FavoritesEntry.COLUMN_ID_MOVIE + "=?";
     private static String[] selectionArgs;
 
@@ -71,7 +69,14 @@ public class MovieDetailActivity extends AppCompatActivity implements TrailerAda
         mRecyclerViewReview.setAdapter(mReviewAdapter);
 
 
-        Intent intent = getIntent();
+        Intent intent = null;
+        if(getIntent() != null)
+            intent = getIntent();
+        else{
+            Toast.makeText(this,getText(R.string.could_not_show_details) , Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
         movieTitle = intent.getStringExtra("movieTitle");
         String movieDescription = intent.getStringExtra("description");
         String usersRating = intent.getStringExtra("usersRating");

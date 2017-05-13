@@ -1,13 +1,11 @@
 package com.example.adeogo.moviestowatch;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -19,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.adeogo.moviestowatch.adapters.MovieAdapter;
 import com.example.adeogo.moviestowatch.data.FavoritesContract;
@@ -33,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private RecyclerView mRecyclerView;
     private MovieAdapter mMovieAdapter;
     private static final int FAVORITES_LOADER_ID = 1;
+    private Parcelable mListState;
 
 
     private String sort_by_popularity = "popular";
@@ -42,22 +40,31 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private TextView mErrorMessageDisplay;
 
     private ProgressBar mLoadingIndicator;
-    private int mPosition = RecyclerView.NO_POSITION;
+    private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(savedInstanceState!=null && savedInstanceState.containsKey("storeSortPref"))
+        {
+            String pref = savedInstanceState.getString("storeSortPref");
+            mSortPref = pref;
+        }
+        else
         mSortPref = sort_by_favorites;
+
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_main);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         /* This TextView is used to display errors and will be hidden if there are no errors */
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, 1));
+            mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(3, 1);
+            mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         } else {
-            mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(5, 1));
+            mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(5, 1);
+            mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         }
 
         mRecyclerView.setHasFixedSize(true);
@@ -165,8 +172,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             mLoadingIndicator.setVisibility(View.INVISIBLE);
             mMovieAdapter.swapCursor(data);
-            if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
-            mRecyclerView.smoothScrollToPosition(mPosition);
+            mStaggeredGridLayoutManager.onRestoreInstanceState(mListState);
             if (data.getCount() != 0) showMovieDataView();
         }
 
@@ -219,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         } else if (mSortPref.contentEquals(sort_by_highest_rated)) {
             if (!action_sort_by_rating.isChecked())
                 action_sort_by_rating.setChecked(true);
-        } else {
+        } else if (mSortPref.contentEquals(sort_by_favorites)) {
             if (!action_sort_by_favorites.isChecked())
                 action_sort_by_favorites.setChecked(true);
         }
@@ -267,8 +273,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        mListState = mStaggeredGridLayoutManager.onSaveInstanceState();
+        outState.putParcelable("list_state", mListState);
         outState.putString("storeSortPref", mSortPref);
     }
+
+    protected void onRestoreInstanceState(Bundle state) {
+        super.onRestoreInstanceState(state);
+
+        // Retrieve list state and list/item positions
+        if(state != null)
+            mListState = state.getParcelable("storeSortPref");
+    }
+
 }
 
 
