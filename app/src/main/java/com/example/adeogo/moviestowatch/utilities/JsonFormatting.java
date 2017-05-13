@@ -72,7 +72,7 @@ public class JsonFormatting {
 
             String titleMovie = position.getString("original_title");
             String idMovie = position.getString("id");
-            String posterPath = position.getString("backdrop_path");
+            String posterPath = position.getString("poster_path");
             String description = position.getString("overview");
             String rating = position.getString("vote_average");
             String releaseDate = position.getString("release_date");
